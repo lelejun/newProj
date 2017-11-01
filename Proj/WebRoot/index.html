@@ -1,0 +1,60 @@
+<!-- <%@ page language="java" import="java.util.*" pageEncoding="ISO-8859-1"%>
+<%
+String path = request.getContextPath();
+String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.getServerPort()+path+"/";
+%> -->
+
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+  <head>
+    <base href="<%=basePath%>">
+    
+    <title>测试</title>
+    <script src="js/jquery.js"></script>
+    <!-- <script src="js/layer.js"></script> -->
+	<meta http-equiv="pragma" content="no-cache">
+	<meta http-equiv="cache-control" content="no-cache">
+	<meta http-equiv="expires" content="0">    
+	<meta http-equiv="keywords" content="keyword1,keyword2,keyword3">
+	<meta http-equiv="description" content="This is my page">
+	<!--
+	<link rel="stylesheet" type="text/css" href="styles.css">
+	-->
+  </head>
+  
+  <body>
+    <input type="text" id="code" placeholder="请输入"/>
+    <button onclick="read();">读取</button>
+    <ul id="myul" style="list-style-type: square;">
+	</ul>
+  </body>
+  <script>
+  
+  	function jsonp11846(data){
+  		var a = eval(data.result);
+  		for(var i = 0;i < a.length; i++) {
+  			$('#myul').append("<li><a href='javascript:void(0)' onclick='out(this)'>"+a[i]+"</a></li>");
+  			}
+  	}
+  	function out(obj){
+  		$("ul").hide();
+  		var res=$(obj).html(); 
+  		document.getElementById("code").value=res;
+  	}
+  	function read(){
+  		var code=$("#code").val();
+  		$.ajax({  
+  	        type : "get",  
+  	        //data:code,
+  	        url: "https://addr-sug.taobao.com/suggestion?l1=310000&l2=310100&l3=310112&callback=jsonp11846&lang=zh-S&addr="+code,  
+  	        dataType : "jsonp",//数据类型为jsonp
+  	        jsonp: "callback",//服务端用于接收callback调用的function名的参数    
+  	        jsonpCallback:"message",
+  	        success : function(data){ 
+  	        	alert("成功！");
+  	        },  
+  	    });   
+  		
+  	}
+  </script>
+</html>
